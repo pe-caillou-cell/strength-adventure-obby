@@ -131,43 +131,7 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile6`, function (sprite, l
     tiles.setCurrentTilemap(tilemap`level2`)
     tiles.placeOnTile(mySprite, tiles.getTileLocation(0, 12))
     scene.cameraFollowSprite(mySprite)
-    gold_sword_3 = sprites.create(img`
-        . . . . . . . . . . . . . . f . 
-        . . . . . . . . . . . . . f . f 
-        . . . . . . . . . . . . . . . f 
-        . . . . . . . . . . f . . . f . 
-        . . . . . . . . . f f f . f . . 
-        . . . . . . . . . . f . . f f f 
-        . . . . . . . 5 . . . . . . . . 
-        . . . . . . 5 5 5 . . . . . . . 
-        . . . . . . 5 5 5 . . . . . . . 
-        . . . . . . 5 5 5 . . . . . . . 
-        . . . . . . 5 5 5 . . . . . . . 
-        . . . . . e e e e e . . . . . . 
-        . . . . . . . e . . . . . . . . 
-        . . . . . . . e . . . . . . . . 
-        . . . . . . . e . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        `, SpriteKind.Food)
-    tiles.placeOnTile(gold_sword_3, tiles.getTileLocation(13, 9))
-    gold_sword_3 = sprites.create(img`
-        . . . . . . . . . . . . . . f . 
-        . . . . . . . . . . . . . f . f 
-        . . . . . . . . . . . . . . . f 
-        . . . . . . . . . . f . . . f . 
-        . . . . . . . . . f f f . f . . 
-        . . . . . . . . . . f . . f f f 
-        . . . . . . . 5 . . . . . . . . 
-        . . . . . . 5 5 5 . . . . . . . 
-        . . . . . . 5 5 5 . . . . . . . 
-        . . . . . . 5 5 5 . . . . . . . 
-        . . . . . . 5 5 5 . . . . . . . 
-        . . . . . e e e e e . . . . . . 
-        . . . . . . . e . . . . . . . . 
-        . . . . . . . e . . . . . . . . 
-        . . . . . . . e . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        `, SpriteKind.Food)
+    tiles.placeOnTile(gold_sword_3, tiles.getTileLocation(15, 11))
 })
 scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.hazardLava0, function (sprite, location) {
     game.gameOver(false)
@@ -175,7 +139,23 @@ scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.hazardLava0, function (sp
 scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.hazardLava1, function (sprite, location) {
     game.gameOver(false)
 })
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSprite) {
+    if (mySprite.overlapsWith(sword_1)) {
+        info.changeScoreBy(1)
+        sprites.destroy(sword_1, effects.starField, 500)
+    }
+    if (mySprite.overlapsWith(gold_sword_2)) {
+        info.changeScoreBy(2)
+        sprites.destroy(gold_sword_2, effects.starField, 500)
+    }
+    if (mySprite.overlapsWith(gold_sword_3)) {
+        info.changeScoreBy(2)
+        sprites.destroy(gold_sword_3, effects.starField, 500)
+    }
+})
 let gold_sword_3: Sprite = null
+let gold_sword_2: Sprite = null
+let sword_1: Sprite = null
 let mySprite: Sprite = null
 scene.setBackgroundImage(img`
     dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
@@ -392,7 +372,7 @@ let thief = sprites.create(img`
 tiles.placeOnTile(thief, tiles.getTileLocation(25, 22))
 controller.moveSprite(mySprite, 100, 0)
 mySprite.ay = 1000
-let sword_1 = sprites.create(img`
+sword_1 = sprites.create(img`
     . . . . . . . . . . . . . . . . 
     . . . . . . . . . . . . . . f . 
     . . . . . . . . . . . . . f f . 
@@ -411,7 +391,7 @@ let sword_1 = sprites.create(img`
     . . . . . . . . . . . . . . . . 
     `, SpriteKind.Food)
 tiles.placeOnTile(sword_1, tiles.getTileLocation(17, 19))
-let gold_sword_2 = sprites.create(img`
+gold_sword_2 = sprites.create(img`
     . . . . . . . . . . . . . . f . 
     . . . . . . . . . . . . . f . f 
     . . . . . . . . . . . . . . . f 
@@ -430,6 +410,24 @@ let gold_sword_2 = sprites.create(img`
     . . . . . . . . . . . . . . . . 
     `, SpriteKind.Food)
 tiles.placeOnTile(gold_sword_2, tiles.getTileLocation(19, 19))
+gold_sword_3 = sprites.create(img`
+    . . . . . . . . . . . . . . f . 
+    . . . . . . . . . . . . . f . f 
+    . . . . . . . . . . . . . . . f 
+    . . . . . . . . . . f . . . f . 
+    . . . . . . . . . f f f . f . . 
+    . . . . . . . . . . f . . f f f 
+    . . . . . . . 5 . . . . . . . . 
+    . . . . . . 5 5 5 . . . . . . . 
+    . . . . . . 5 5 5 . . . . . . . 
+    . . . . . . 5 5 5 . . . . . . . 
+    . . . . . . 5 5 5 . . . . . . . 
+    . . . . . e e e e e . . . . . . 
+    . . . . . . . e . . . . . . . . 
+    . . . . . . . e . . . . . . . . 
+    . . . . . . . e . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    `, SpriteKind.Food)
 info.setScore(1)
 forever(function () {
     if (mySprite.overlapsWith(thief) && info.score() > 3) {
@@ -442,20 +440,5 @@ forever(function () {
     }
 })
 forever(function () {
-    if (mySprite.overlapsWith(gold_sword_2)) {
-        info.changeScoreBy(2)
-        sprites.destroy(gold_sword_2, effects.starField, 500)
-    }
-})
-forever(function () {
-    if (mySprite.overlapsWith(sword_1)) {
-        info.changeScoreBy(1)
-        sprites.destroy(sword_1, effects.starField, 500)
-    }
-})
-forever(function () {
-    if (mySprite.overlapsWith(gold_sword_3)) {
-        info.changeScoreBy(2)
-        sprites.destroy(gold_sword_3, effects.starField, 500)
-    }
+	
 })
