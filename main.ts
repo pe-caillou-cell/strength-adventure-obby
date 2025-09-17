@@ -1,3 +1,9 @@
+controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
+    mySprite.ay = 0
+    mySprite.ay = -200
+    mySprite.ay = 1000
+})
+let mySprite: Sprite = null
 scene.setBackgroundImage(img`
     dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
     dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
@@ -121,7 +127,7 @@ scene.setBackgroundImage(img`
     6666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666
     `)
 tiles.setCurrentTilemap(tilemap`level1`)
-let mySprite = sprites.create(img`
+mySprite = sprites.create(img`
     . . . . . . e e e e . . . . . . 
     . . . . . e e e e e e . . . . . 
     . . . . . . d d d d . . . . . . 
@@ -139,8 +145,27 @@ let mySprite = sprites.create(img`
     . . . . e e . . . . e e . . . . 
     . . . . . . . . . . . . . . . . 
     `, SpriteKind.Player)
+scene.cameraFollowSprite(mySprite)
+let thief = sprites.create(img`
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . f f f f f . . . . . 
+    . . . . . . d d d d f f . . . . 
+    . . . . . . f d f d d f . . . . 
+    . . . . . c c c d d d f . . . . 
+    . . . . c c c c d d f f . . . . 
+    . . . c c . f d f f f f . . . . 
+    . . . . . . f f f f f f . . . . 
+    . . . . . . f f f f f f . . . . 
+    . . . . . . f f f f f f . . . . 
+    . . . . . . f f f f f f . . . . 
+    . . . . . . f f f f f f . . . . 
+    . . . . . f f f f f f f f . . . 
+    . . . . f f f f f f f f f f . . 
+    `, SpriteKind.Enemy)
 controller.moveSprite(mySprite, 100, 0)
-mySprite.x = 0
+mySprite.ay = 1000
 let home_spawnpoint = sprites.create(img`
     ....................e2e22e2e....................
     .................222eee22e2e222.................
@@ -191,4 +216,14 @@ let home_spawnpoint = sprites.create(img`
     .....64eee444c66f4e44e44e44e44ee66c444eee46.....
     ......6ccc666c66e4e44e44e44e44ee66c666ccc6......
     `, SpriteKind.Food)
-info.setScore(0)
+info.setScore(3)
+forever(function () {
+    if (mySprite.overlapsWith(thief) && info.score() > 1) {
+        sprites.destroy(thief, effects.disintegrate, 500)
+        info.changeScoreBy(1)
+    } else {
+        if (info.score() < 1) {
+            game.gameOver(false)
+        }
+    }
+})
