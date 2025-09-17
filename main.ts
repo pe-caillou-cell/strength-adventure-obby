@@ -131,6 +131,43 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile6`, function (sprite, l
     tiles.setCurrentTilemap(tilemap`level2`)
     tiles.placeOnTile(mySprite, tiles.getTileLocation(0, 12))
     scene.cameraFollowSprite(mySprite)
+    gold_sword_3 = sprites.create(img`
+        . . . . . . . . . . . . . . f . 
+        . . . . . . . . . . . . . f . f 
+        . . . . . . . . . . . . . . . f 
+        . . . . . . . . . . f . . . f . 
+        . . . . . . . . . f f f . f . . 
+        . . . . . . . . . . f . . f f f 
+        . . . . . . . 5 . . . . . . . . 
+        . . . . . . 5 5 5 . . . . . . . 
+        . . . . . . 5 5 5 . . . . . . . 
+        . . . . . . 5 5 5 . . . . . . . 
+        . . . . . . 5 5 5 . . . . . . . 
+        . . . . . e e e e e . . . . . . 
+        . . . . . . . e . . . . . . . . 
+        . . . . . . . e . . . . . . . . 
+        . . . . . . . e . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `, SpriteKind.Food)
+    tiles.placeOnTile(gold_sword_3, tiles.getTileLocation(13, 9))
+    gold_sword_3 = sprites.create(img`
+        . . . . . . . . . . . . . . f . 
+        . . . . . . . . . . . . . f . f 
+        . . . . . . . . . . . . . . . f 
+        . . . . . . . . . . f . . . f . 
+        . . . . . . . . . f f f . f . . 
+        . . . . . . . . . . f . . f f f 
+        . . . . . . . 5 . . . . . . . . 
+        . . . . . . 5 5 5 . . . . . . . 
+        . . . . . . 5 5 5 . . . . . . . 
+        . . . . . . 5 5 5 . . . . . . . 
+        . . . . . . 5 5 5 . . . . . . . 
+        . . . . . e e e e e . . . . . . 
+        . . . . . . . e . . . . . . . . 
+        . . . . . . . e . . . . . . . . 
+        . . . . . . . e . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `, SpriteKind.Food)
 })
 scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.hazardLava0, function (sprite, location) {
     game.gameOver(false)
@@ -138,6 +175,7 @@ scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.hazardLava0, function (sp
 scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.hazardLava1, function (sprite, location) {
     game.gameOver(false)
 })
+let gold_sword_3: Sprite = null
 let mySprite: Sprite = null
 scene.setBackgroundImage(img`
     dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
@@ -405,7 +443,7 @@ forever(function () {
 })
 forever(function () {
     if (mySprite.overlapsWith(gold_sword_2)) {
-        info.changeScoreBy(1)
+        info.changeScoreBy(2)
         sprites.destroy(gold_sword_2, effects.starField, 500)
     }
 })
@@ -413,5 +451,11 @@ forever(function () {
     if (mySprite.overlapsWith(sword_1)) {
         info.changeScoreBy(1)
         sprites.destroy(sword_1, effects.starField, 500)
+    }
+})
+forever(function () {
+    if (mySprite.overlapsWith(gold_sword_3)) {
+        info.changeScoreBy(2)
+        sprites.destroy(gold_sword_3, effects.starField, 500)
     }
 })
