@@ -132,6 +132,17 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile6`, function (sprite, l
     tiles.placeOnTile(mySprite, tiles.getTileLocation(0, 12))
     scene.cameraFollowSprite(mySprite)
     tiles.placeOnTile(gold_sword_3, tiles.getTileLocation(15, 11))
+    tiles.placeOnTile(diamond_4, tiles.getTileLocation(17, 11))
+})
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile13`, function (sprite, location) {
+    if (info.score() > 9) {
+        info.changeScoreBy(10)
+        game.gameOver(true)
+    } else {
+        if (info.score() == 9 || info.score() < 9) {
+            game.gameOver(false)
+        }
+    }
 })
 scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.hazardLava0, function (sprite, location) {
     game.gameOver(false)
@@ -152,7 +163,12 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSpr
         info.changeScoreBy(2)
         sprites.destroy(gold_sword_3, effects.starField, 500)
     }
+    if (mySprite.overlapsWith(diamond_4)) {
+        info.changeScoreBy(3)
+        sprites.destroy(diamond_4, effects.starField, 500)
+    }
 })
+let diamond_4: Sprite = null
 let gold_sword_3: Sprite = null
 let gold_sword_2: Sprite = null
 let sword_1: Sprite = null
@@ -428,6 +444,24 @@ gold_sword_3 = sprites.create(img`
     . . . . . . . e . . . . . . . . 
     . . . . . . . . . . . . . . . . 
     `, SpriteKind.Food)
+diamond_4 = sprites.create(img`
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . f f . 
+    . . . . . . . . . . f . . . . f 
+    . . . . . . . . . f f f . f f . 
+    . . . . . . . . . . f . . . . f 
+    . . . . . . . . . . . . . f f . 
+    . . . . . . . 9 . . . . . . . . 
+    . . . . . . 9 9 9 . . . . . . . 
+    . . . . . . 9 9 9 . . . . . . . 
+    . . . . . . 9 9 9 . . . . . . . 
+    . . . . . . 9 9 9 . . . . . . . 
+    . . . . . e e e e e . . . . . . 
+    . . . . . . . e . . . . . . . . 
+    . . . . . . . e . . . . . . . . 
+    . . . . . . . e . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    `, SpriteKind.Food)
 info.setScore(1)
 forever(function () {
     if (mySprite.overlapsWith(thief) && info.score() > 3) {
@@ -438,7 +472,4 @@ forever(function () {
             game.gameOver(false)
         }
     }
-})
-forever(function () {
-	
 })
