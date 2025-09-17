@@ -1,7 +1,9 @@
 controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
-    mySprite.ay = 0
-    mySprite.ay = -200
-    mySprite.ay = 1000
+    if (mySprite.isHittingTile(CollisionDirection.Bottom)) {
+        mySprite.ay = 0
+        mySprite.vy = -200
+        mySprite.ay = 1000
+    }
 })
 let mySprite: Sprite = null
 scene.setBackgroundImage(img`
@@ -127,45 +129,6 @@ scene.setBackgroundImage(img`
     6666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666
     `)
 tiles.setCurrentTilemap(tilemap`level1`)
-mySprite = sprites.create(img`
-    . . . . . . e e e e . . . . . . 
-    . . . . . e e e e e e . . . . . 
-    . . . . . . d d d d . . . . . . 
-    . . . . . . f d d f . . . . . . 
-    . . . . . . d f f d . . . . . . 
-    . . . 2 2 d d f f d d 2 2 . . . 
-    . . . 2 2 3 d d d d 3 2 2 . . . 
-    . . . 2 2 d d d d d d 2 2 . . . 
-    . . . 2 2 d d d d d d 2 2 . . . 
-    . . . d 2 d d d d d d 2 d . . . 
-    . . . . 2 e e 5 e e e 2 . . . . 
-    . . . . e e . . . . e e . . . . 
-    . . . . e e . . . . e e . . . . 
-    . . . . e e . . . . e e . . . . 
-    . . . . e e . . . . e e . . . . 
-    . . . . . . . . . . . . . . . . 
-    `, SpriteKind.Player)
-scene.cameraFollowSprite(mySprite)
-let thief = sprites.create(img`
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . f f f f f . . . . . 
-    . . . . . . d d d d f f . . . . 
-    . . . . . . f d f d d f . . . . 
-    . . . . . c c c d d d f . . . . 
-    . . . . c c c c d d f f . . . . 
-    . . . c c . f d f f f f . . . . 
-    . . . . . . f f f f f f . . . . 
-    . . . . . . f f f f f f . . . . 
-    . . . . . . f f f f f f . . . . 
-    . . . . . . f f f f f f . . . . 
-    . . . . . . f f f f f f . . . . 
-    . . . . . f f f f f f f f . . . 
-    . . . . f f f f f f f f f f . . 
-    `, SpriteKind.Enemy)
-controller.moveSprite(mySprite, 100, 0)
-mySprite.ay = 1000
 let home_spawnpoint = sprites.create(img`
     ....................e2e22e2e....................
     .................222eee22e2e222.................
@@ -216,6 +179,48 @@ let home_spawnpoint = sprites.create(img`
     .....64eee444c66f4e44e44e44e44ee66c444eee46.....
     ......6ccc666c66e4e44e44e44e44ee66c666ccc6......
     `, SpriteKind.Food)
+tiles.placeOnTile(home_spawnpoint, tiles.getTileLocation(0, 29))
+mySprite = sprites.create(img`
+    . . . . . . e e e e . . . . . . 
+    . . . . . e e e e e e . . . . . 
+    . . . . . . d d d d . . . . . . 
+    . . . . . . f d d f . . . . . . 
+    . . . . . . d f f d . . . . . . 
+    . . . 2 2 d d f f d d 2 2 . . . 
+    . . . 2 2 3 d d d d 3 2 2 . . . 
+    . . . 2 2 d d d d d d 2 2 . . . 
+    . . . 2 2 d d d d d d 2 2 . . . 
+    . . . d 2 d d d d d d 2 d . . . 
+    . . . . 2 e e 5 e e e 2 . . . . 
+    . . . . e e . . . . e e . . . . 
+    . . . . e e . . . . e e . . . . 
+    . . . . e e . . . . e e . . . . 
+    . . . . e e . . . . e e . . . . 
+    . . . . . . . . . . . . . . . . 
+    `, SpriteKind.Player)
+scene.cameraFollowSprite(mySprite)
+tiles.placeOnTile(mySprite, tiles.getTileLocation(0, 30))
+let thief = sprites.create(img`
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . f f f f f . . . . . 
+    . . . . . . d d d d f f . . . . 
+    . . . . . . f d f d d f . . . . 
+    . . . . . c c c d d d f . . . . 
+    . . . . c c c c d d f f . . . . 
+    . . . c c . f d f f f f . . . . 
+    . . . . . . f f f f f f . . . . 
+    . . . . . . f f f f f f . . . . 
+    . . . . . . f f f f f f . . . . 
+    . . . . . . f f f f f f . . . . 
+    . . . . . . f f f f f f . . . . 
+    . . . . . f f f f f f f f . . . 
+    . . . . f f f f f f f f f f . . 
+    `, SpriteKind.Enemy)
+tiles.placeOnTile(thief, tiles.getTileLocation(25, 22))
+controller.moveSprite(mySprite, 100, 0)
+mySprite.ay = 1000
 info.setScore(3)
 forever(function () {
     if (mySprite.overlapsWith(thief) && info.score() > 1) {
